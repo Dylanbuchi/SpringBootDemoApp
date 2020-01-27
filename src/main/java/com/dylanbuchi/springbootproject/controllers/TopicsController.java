@@ -1,11 +1,15 @@
 package com.dylanbuchi.springbootproject.controllers;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.dylanbuchi.springbootproject.models.Topic;
+import com.dylanbuchi.springbootproject.services.TopicService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class TopicsController implements IRestControllers {
+
+    @Autowired
+    private TopicService topicService;
 
     @Override
     @RequestMapping("/2")
@@ -22,10 +29,20 @@ public class TopicsController implements IRestControllers {
     }
 
     @RequestMapping("/topics")
-    public List<Topic> printTopics() {
-        return Arrays.asList(new Topic("1", "Java", "Best programming language"),
-                new Topic("2", "Spring", "Best framework"), new Topic("3", "Flutter", "Create apps really fast"),
-                new Topic("4", "Python", "Easy programming language"));
+    public List<Topic> getAllTopics() {
+        return topicService.getAllTopics();
+
+    }
+
+    @RequestMapping("/topics/{id}")
+    public Topic getTopic(@PathVariable String id) {
+        return topicService.getTopic(id);
+
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/topics")
+    public void addTopic(@RequestBody Topic topic) {
+        topicService.addTopic(topic);
 
     }
 
