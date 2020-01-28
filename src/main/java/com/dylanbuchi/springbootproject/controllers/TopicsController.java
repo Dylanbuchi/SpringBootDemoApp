@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TopicsController implements IRestControllers {
 
+    // typical methods for a rest api
+
     @Autowired
     private TopicService topicService;
 
@@ -28,21 +30,38 @@ public class TopicsController implements IRestControllers {
 
     }
 
+    // Get every topics
     @RequestMapping("/topics")
     public List<Topic> getAllTopics() {
         return topicService.getAllTopics();
 
     }
 
+    // Get the topic from id
     @RequestMapping("/topics/{id}")
     public Topic getTopic(@PathVariable String id) {
         return topicService.getTopic(id);
 
     }
 
+    // put a new topic
     @RequestMapping(method = RequestMethod.POST, value = "/topics")
     public void addTopic(@RequestBody Topic topic) {
         topicService.addTopic(topic);
+
+    }
+
+    // update a topic by id
+    @RequestMapping(method = RequestMethod.PUT, value = "/topics/{id}")
+    public void updateTopic(@RequestBody Topic topic, @PathVariable String id) {
+        topicService.updateTopic(topic, id);
+
+    }
+
+    // delete a topic by id
+    @RequestMapping(method = RequestMethod.DELETE, value = "/topics/{id}")
+    public void deleteTopic(@RequestBody Topic topic, @PathVariable String id) {
+        topicService.deleteTopic(id);
 
     }
 
